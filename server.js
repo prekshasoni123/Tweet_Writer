@@ -1,14 +1,18 @@
-const PORT=8000
+
 const express=require('express')
+const dotenv = require('dotenv');
 const cors=require('cors')
 
 const app=express()
 app.use(express.json())
 app.use(cors())
 
-const API_KEY='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'
-
+dotenv.config();
+const PORT = process.env.PORT || 8000;
+const API_KEY=process.env.API_KEY
 app.post('/completions', async(req,res)=>{
+
+    const { message } = req.body;
     const options={
         method:"POST",
         headers: {
@@ -18,7 +22,7 @@ app.post('/completions', async(req,res)=>{
         body: JSON.stringify({
             model: "gpt-3.5-turbo-1106",
             messages: [
-                {role: "user", content: req.body.message},
+                {role: "user", content: message},
                 
               ],
             max_tokens: 300,
